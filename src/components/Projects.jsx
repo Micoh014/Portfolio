@@ -1,6 +1,13 @@
 import Reveal from "./Reveal.jsx";
 
-const slots = [1, 2, 3];
+const project = {
+  title: "Pet Village",
+  subtitle: "Loyalty, Deals & Rewards App",
+  description:
+    "A native Android companion app for loyalty points, deals, and rewards — checkout hands off to the brand's existing WooCommerce store.",
+  icon: "/petvillage-icon.png",
+  tags: ["SOLO DEVELOPER", "MADE IN THE PHILIPPINES", "FLUTTER + FIREBASE"],
+};
 
 export default function Projects() {
   return (
@@ -24,37 +31,50 @@ export default function Projects() {
           </a>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-[22px]">
-          {slots.map((n, i) => (
-            <Reveal key={n} delay={i * 0.08}>
-              <div className="relative bg-surface border border-ink/[0.11] rounded-2xl p-[30px] min-h-[270px] flex flex-col justify-between overflow-hidden transition-all hover:border-accent/35 hover:-translate-y-1">
-                <span className="absolute top-6 right-6 w-[30px] h-[30px] rounded-full border border-dashed border-ink/[0.11] flex items-center justify-center text-inkDim text-sm">
-                  +
+        <Reveal className="relative flex justify-center py-10">
+          {/* decorative back card — left */}
+          <div
+            className="absolute w-[340px] sm:w-[400px] h-[220px] rounded-2xl bg-surface border border-ink/[0.08] opacity-50"
+            style={{ transform: "rotate(-7deg) translateX(-70px)" }}
+          />
+          {/* decorative back card — right */}
+          <div
+            className="absolute w-[340px] sm:w-[400px] h-[220px] rounded-2xl bg-surface border border-ink/[0.08] opacity-50"
+            style={{ transform: "rotate(7deg) translateX(70px)" }}
+          />
+
+          {/* front card — the real project */}
+          <div className="relative z-10 w-full max-w-[400px] bg-surface border border-ink/[0.11] rounded-2xl p-6 shadow-[0_20px_50px_-15px_rgba(0,0,0,0.25)]">
+            <div className="flex flex-wrap gap-2 mb-5">
+              {project.tags.map((tag) => (
+                <span
+                  key={tag}
+                  className="font-mono text-[10px] text-inkDim border border-ink/[0.11] rounded-full px-3 py-1 uppercase tracking-wide"
+                >
+                  {tag}
                 </span>
-                <div>
-                  <span className="font-mono text-xs text-inkDim">
-                    PROJECT — {String(n).padStart(2, "0")}
-                  </span>
-                  <div className="font-display text-[21px] my-4 text-ink">
-                    Add your project title
-                  </div>
-                  <div className="text-sm text-inkMuted mb-5">
-                    Short description of the problem this project solves and
-                    your role in building it.
-                  </div>
-                </div>
-                <div className="flex flex-wrap gap-2">
-                  <span className="font-mono text-[11px] text-inkDim border border-ink/[0.07] px-[9px] py-1 rounded-md">
-                    stack
-                  </span>
-                  <span className="font-mono text-[11px] text-inkDim border border-ink/[0.07] px-[9px] py-1 rounded-md">
-                    link
-                  </span>
-                </div>
+              ))}
+            </div>
+
+            <div className="flex items-center gap-4 mb-4">
+              <img
+                src={project.icon}
+                alt={project.title}
+                className="w-12 h-12 rounded-xl object-cover shrink-0"
+              />
+              <div>
+                <h3 className="font-display text-lg text-ink leading-tight">
+                  {project.title}
+                </h3>
+                <p className="font-mono text-[10.5px] text-inkDim uppercase tracking-wide">
+                  {project.subtitle}
+                </p>
               </div>
-            </Reveal>
-          ))}
-        </div>
+            </div>
+
+            <p className="text-sm text-inkMuted mb-6">{project.description}</p>
+          </div>
+        </Reveal>
       </div>
     </section>
   );

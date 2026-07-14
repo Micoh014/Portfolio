@@ -115,15 +115,6 @@ export default function Hero() {
             >
               linkedin ↗
             </a>
-
-            <a
-              href="#"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-accent"
-            >
-              instagram ↗
-            </a>
             <a
               href="mailto:micohangelo14@gmail.com"
               className="hover:text-accent"

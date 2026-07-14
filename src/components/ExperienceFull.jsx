@@ -2,13 +2,20 @@ import Reveal from "./Reveal.jsx";
 
 export const experiences = [
   {
-    org: "PV Venture Corp.",
-    role: "App Developer",
-    period: "JUNE 2026 — PRESENT",
+    org: "Pet Village Venture Corp.",
+    orgType: "Internship",
+    duration: "3 mos",
+    location: "San Jose del Monte, Bulacan, Philippines",
+    locationType: "On-site",
+    role: "App Development Intern",
+    period: "JUN 2026 — AUG 2026 · 3 MOS",
     year: "2026",
-    description:
-      "Building mobile app features and functionality as part of the development team.",
-    skills: ["Mobile Development", "Flutter", "Dart", "Firebase", "Git"],
+    icon: "/petvillage-icon.png",
+    description: [
+      "Built and shipped a Flutter loyalty and rewards companion app for a Philippines-based pet products e-commerce brand, working solo across architecture, backend integration, UI/UX, and deployment.",
+      "Used Google Sheets and Apps Script as a zero-cost live CMS so non-technical staff could update promos and rewards without redeployment, and wired a redeem-to-checkout flow into the brand's existing WooCommerce storefront.",
+    ],
+    skills: ["Flutter", "Firebase", "Google Apps Script", "WooCommerce"],
   },
 ];
 
@@ -31,27 +38,58 @@ export default function ExperienceFull({ onBack }) {
           work to shipping features as an App Developer.
         </p>
 
-        <div className="space-y-6">
+        <div className="divide-y divide-ink/[0.07]">
           {experiences.map((exp, i) => (
             <Reveal
               key={i}
               delay={i * 0.08}
-              className="border border-ink/[0.11] rounded-2xl p-7 bg-surface flex gap-5"
+              className="flex gap-5 py-8 first:pt-0"
             >
-              <div className="w-11 h-11 rounded-xl bg-bg border border-ink/[0.07] flex items-center justify-center font-mono text-xs text-inkDim shrink-0">
-                {exp.org
-                  .split(" ")
-                  .map((w) => w[0])
-                  .slice(0, 2)
-                  .join("")}
-              </div>
+              {exp.icon ? (
+                <img
+                  src={exp.icon}
+                  alt={exp.org}
+                  className="w-11 h-11 rounded-xl object-cover shrink-0"
+                />
+              ) : (
+                <div className="w-11 h-11 rounded-xl bg-bg border border-ink/[0.07] flex items-center justify-center font-mono text-xs text-inkDim shrink-0">
+                  {exp.org
+                    .split(" ")
+                    .map((w) => w[0])
+                    .slice(0, 2)
+                    .join("")}
+                </div>
+              )}
+
               <div className="flex-1 min-w-0">
                 <h3 className="font-medium text-ink text-base">{exp.org}</h3>
-                <p className="text-inkMuted text-sm mb-3">{exp.role}</p>
+
+                {exp.orgType && (
+                  <p className="text-inkMuted text-sm mt-0.5">
+                    {exp.orgType}
+                    {exp.duration && ` · ${exp.duration}`}
+                  </p>
+                )}
+                {exp.location && (
+                  <p className="font-mono text-[11px] text-inkDim mt-0.5">
+                    {exp.location}
+                    {exp.locationType && ` · ${exp.locationType}`}
+                  </p>
+                )}
+
+                <p className="text-ink font-medium text-sm mt-4">{exp.role}</p>
                 <p className="font-mono text-[11px] text-inkDim uppercase tracking-wide mb-3">
                   {exp.period}
                 </p>
-                <p className="text-inkMuted text-sm mb-4">{exp.description}</p>
+
+                <div className="space-y-2 mb-4">
+                  {exp.description.map((para, j) => (
+                    <p key={j} className="text-inkMuted text-sm">
+                      {para}
+                    </p>
+                  ))}
+                </div>
+
                 <div className="flex flex-wrap gap-2">
                   {exp.skills.map((skill) => (
                     <span
