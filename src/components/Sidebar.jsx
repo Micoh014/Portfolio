@@ -46,12 +46,29 @@ export default function Sidebar({ onGoHome, activeSection }) {
 
   return (
     <aside className="fixed left-0 top-0 h-screen w-64 bg-bg border-r border-ink/[0.07] backdrop-blur-sm overflow-y-auto p-8 hidden md:flex flex-col">
-      <button onClick={onGoHome} className="mb-12 text-left">
+      <button onClick={onGoHome} className="mb-6 text-left">
         <h1 className="font-mono text-sm font-bold text-ink hover:text-accent transition-colors">
           Micoh Ojenar
         </h1>
       </button>
 
+      <a
+        href="/Ojenar_Micoh_Angelo_Resume.docx"
+        download
+        className="flex items-center gap-2 text-xs font-mono px-3 py-2 rounded-lg border border-ink/[0.11] text-ink hover:border-accent hover:text-accent transition-colors mb-8 w-fit"
+      >
+        <svg
+          width="12"
+          height="12"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+        >
+          <path d="M12 3v12m0 0l-4-4m4 4l4-4M4 21h16" />
+        </svg>
+        Download CV
+      </a>
       <nav className="space-y-2 flex-1">
         {sections.map((s) => (
           <a

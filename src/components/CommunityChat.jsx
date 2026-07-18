@@ -99,6 +99,9 @@ export default function CommunityChat({ onClose }) {
         {!joined ? (
           <div>
             <p className="text-sm text-inkMuted mb-3">what's your name?</p>
+            <p className="font-mono text-[11px] text-inkDim mb-4">
+              Names aren't verified — anyone can type any name here.
+            </p>
             <form
               onSubmit={(e) => {
                 e.preventDefault();

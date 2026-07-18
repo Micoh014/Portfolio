@@ -10,6 +10,7 @@ import StackFull from "./components/StackFull.jsx";
 import Certifications from "./components/Certifications.jsx";
 import CertificationsFull from "./components/CertificationsFull.jsx";
 import GithubContribution from "./components/GithubContribution.jsx";
+import MobileNav from "./components/Mobile_nav.jsx";
 
 const SECTION_IDS = ["projects", "experience", "stack", "certifications"];
 
@@ -38,10 +39,8 @@ export default function App() {
 
   return (
     <div className="pb-[38px] md:pb-0">
-      <Sidebar
-        onGoHome={goHome}
-        activeSection={page === "home" ? activeSection : ""}
-      />
+      <Sidebar onGoHome={goHome} activeSection={activeSection} />
+      <MobileNav onGoHome={goHome} activeSection={activeSection} />
       <StatusRail />
       <StatusBarMobile />
 
