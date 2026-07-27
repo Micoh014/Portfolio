@@ -31,6 +31,8 @@ export default function ExperienceFull({ onBack }) {
                 <img
                   src={exp.icon}
                   alt={exp.org}
+                  width="44"
+                  height="44"
                   className="w-11 h-11 rounded-xl object-cover shrink-0"
                 />
               ) : (

@@ -37,6 +37,8 @@ export default function Hero() {
               <img
                 src="/Profile.jpg"
                 alt="Micoh Angelo Ojenar"
+                width="320"
+                height="320"
                 className="w-full h-full rounded-full object-cover border-4 border-bg"
               />
             </div>
