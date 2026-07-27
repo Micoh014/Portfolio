@@ -1,15 +1,14 @@
-import { useState, useEffect } from "react";
-import { flushSync } from "react-dom";
+import { useState } from "react";
 import CommunityChat from "./CommunityChat.jsx";
 import ViewersWidget from "./ViewersWidget.jsx";
 
-export default function Sidebar({ onGoHome, activeSection }) {
-  const [dark, setDark] = useState(false);
+export default function Sidebar({
+  onGoHome,
+  activeSection,
+  dark,
+  onThemeChange,
+}) {
   const [chatOpen, setChatOpen] = useState(false);
-
-  useEffect(() => {
-    document.documentElement.classList.toggle("dark", dark);
-  }, [dark]);
 
   const sections = [
     { id: "projects", label: "Projects", href: "#projects" },
@@ -23,24 +22,6 @@ export default function Sidebar({ onGoHome, activeSection }) {
     onGoHome();
     requestAnimationFrame(() => {
       document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
-    });
-  };
-
-  const handleThemeChange = (nextDark, e) => {
-    const x = e.clientX;
-    const y = e.clientY;
-    document.documentElement.style.setProperty("--x", `${x}px`);
-    document.documentElement.style.setProperty("--y", `${y}px`);
-
-    if (!document.startViewTransition) {
-      setDark(nextDark);
-      return;
-    }
-
-    document.startViewTransition(() => {
-      flushSync(() => {
-        setDark(nextDark);
-      });
     });
   };
 
@@ -97,7 +78,7 @@ export default function Sidebar({ onGoHome, activeSection }) {
       <div className="border-t border-ink/[0.07] pt-6 mt-6 space-y-4">
         <div className="flex items-center gap-2">
           <button
-            onClick={(e) => handleThemeChange(false, e)}
+            onClick={(e) => onThemeChange(false, e)}
             className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors ${
               !dark
                 ? "bg-ink text-bg"
@@ -117,7 +98,7 @@ export default function Sidebar({ onGoHome, activeSection }) {
             </svg>
           </button>
           <button
-            onClick={(e) => handleThemeChange(true, e)}
+            onClick={(e) => onThemeChange(true, e)}
             className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors ${
               dark
                 ? "bg-ink text-bg"

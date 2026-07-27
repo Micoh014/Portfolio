@@ -8,7 +8,8 @@ import Stack from "./components/Stack.jsx";
 import Certifications from "./components/Certifications.jsx";
 import MobileNav from "./components/Mobile_nav.jsx";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import { flushSync } from "react-dom";
 import { lazy, Suspense } from "react";
 
 const ExperienceFull = lazy(() => import("./components/ExperienceFull.jsx"));
@@ -22,18 +23,47 @@ const SECTION_IDS = ["projects", "experience", "stack", "certifications"];
 export default function App() {
   const [page, setPage] = useState("home");
   const [activeSection, setActiveSection] = useState("");
+  const [dark, setDark] = useState(false);
+
+  useEffect(() => {
+    document.documentElement.classList.toggle("dark", dark);
+  }, [dark]);
+
+  const handleThemeChange = (nextDark, e) => {
+    const x = e.clientX;
+    const y = e.clientY;
+    document.documentElement.style.setProperty("--x", `${x}px`);
+    document.documentElement.style.setProperty("--y", `${y}px`);
+
+    if (!document.startViewTransition) {
+      setDark(nextDark);
+      return;
+    }
+
+    document.startViewTransition(() => {
+      flushSync(() => {
+        setDark(nextDark);
+      });
+    });
+  };
 
   useEffect(() => {
     if (page !== "home") return;
+    let ticking = false;
     const onScroll = () => {
-      let current = "";
-      for (const id of SECTION_IDS) {
-        const el = document.getElementById(id);
-        if (el && el.getBoundingClientRect().top < window.innerHeight * 0.4) {
-          current = id;
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        let current = "";
+        for (const id of SECTION_IDS) {
+          const el = document.getElementById(id);
+          if (el && el.getBoundingClientRect().top < window.innerHeight * 0.4) {
+            current = id;
+          }
         }
-      }
-      setActiveSection(current);
+        setActiveSection(current);
+        ticking = false;
+      });
     };
     window.addEventListener("scroll", onScroll);
     onScroll();
@@ -44,8 +74,18 @@ export default function App() {
 
   return (
     <div className="pb-[38px] md:pb-0">
-      <Sidebar onGoHome={goHome} activeSection={activeSection} />
-      <MobileNav onGoHome={goHome} activeSection={activeSection} />
+      <Sidebar
+        onGoHome={goHome}
+        activeSection={activeSection}
+        dark={dark}
+        onThemeChange={handleThemeChange}
+      />
+      <MobileNav
+        onGoHome={goHome}
+        activeSection={activeSection}
+        dark={dark}
+        onThemeChange={handleThemeChange}
+      />
       <StatusRail />
       <StatusBarMobile />
 
