@@ -1,5 +1,5 @@
 import Reveal from "./Reveal.jsx";
-import { experiences } from "./ExperienceFull.jsx";
+import { experiences } from "./experienceData.js";
 
 export default function Experience({ onOpenFull }) {
   return (

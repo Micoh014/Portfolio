@@ -1,16 +1,21 @@
-import { useState, useEffect } from "react";
+import GithubContribution from "./components/GithubContribution.jsx";
 import Sidebar from "./components/Sidebar.jsx";
 import { StatusRail, StatusBarMobile } from "./components/StatusBars.jsx";
 import Hero from "./components/Hero.jsx";
 import Projects from "./components/Projects.jsx";
 import Experience from "./components/Experience.jsx";
-import ExperienceFull from "./components/ExperienceFull.jsx";
 import Stack from "./components/Stack.jsx";
-import StackFull from "./components/StackFull.jsx";
 import Certifications from "./components/Certifications.jsx";
-import CertificationsFull from "./components/CertificationsFull.jsx";
-import GithubContribution from "./components/GithubContribution.jsx";
 import MobileNav from "./components/Mobile_nav.jsx";
+
+import { useState, useEffect } from "react";
+import { lazy, Suspense } from "react";
+
+const ExperienceFull = lazy(() => import("./components/ExperienceFull.jsx"));
+const StackFull = lazy(() => import("./components/StackFull.jsx"));
+const CertificationsFull = lazy(
+  () => import("./components/CertificationsFull.jsx"),
+);
 
 const SECTION_IDS = ["projects", "experience", "stack", "certifications"];
 
@@ -45,9 +50,33 @@ export default function App() {
       <StatusBarMobile />
 
       <main className="md:ml-64">
-        {page === "experience" && <ExperienceFull onBack={goHome} />}
-        {page === "stack" && <StackFull onBack={goHome} />}
-        {page === "certifications" && <CertificationsFull onBack={goHome} />}
+        {page === "experience" && (
+          <Suspense
+            fallback={
+              <div className="p-8 text-inkMuted text-sm">Loading...</div>
+            }
+          >
+            <ExperienceFull onBack={goHome} />
+          </Suspense>
+        )}
+        {page === "stack" && (
+          <Suspense
+            fallback={
+              <div className="p-8 text-inkMuted text-sm">Loading...</div>
+            }
+          >
+            <StackFull onBack={goHome} />
+          </Suspense>
+        )}
+        {page === "certifications" && (
+          <Suspense
+            fallback={
+              <div className="p-8 text-inkMuted text-sm">Loading...</div>
+            }
+          >
+            <CertificationsFull onBack={goHome} />
+          </Suspense>
+        )}
         {page === "home" && (
           <>
             <Hero />
