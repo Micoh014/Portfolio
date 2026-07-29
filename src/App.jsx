@@ -70,6 +70,10 @@ export default function App() {
     return () => window.removeEventListener("scroll", onScroll);
   }, [page]);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [page]);
+
   const goHome = () => setPage("home");
 
   return (
@@ -123,7 +127,7 @@ export default function App() {
             <Projects />
             <Experience onOpenFull={() => setPage("experience")} />
             <Stack onOpenFull={() => setPage("stack")} />
-            <Certifications onOpenFull={() => setPage("certifications")} />
+            <Certifications onOpfenFull={() => setPage("certifications")} />
             <GithubContribution />
           </>
         )}
