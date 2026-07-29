@@ -24,6 +24,7 @@ export default function App() {
   const [page, setPage] = useState("home");
   const [activeSection, setActiveSection] = useState("");
   const [dark, setDark] = useState(false);
+  const [lastSection, setLastSection] = useState(null);
 
   useEffect(() => {
     document.documentElement.classList.toggle("dark", dark);
@@ -48,33 +49,34 @@ export default function App() {
   };
 
   useEffect(() => {
-    if (page !== "home") return;
-    let ticking = false;
-    const onScroll = () => {
-      if (ticking) return;
-      ticking = true;
-      requestAnimationFrame(() => {
-        let current = "";
-        for (const id of SECTION_IDS) {
-          const el = document.getElementById(id);
-          if (el && el.getBoundingClientRect().top < window.innerHeight * 0.4) {
-            current = id;
-          }
-        }
-        setActiveSection(current);
-        ticking = false;
-      });
-    };
-    window.addEventListener("scroll", onScroll);
-    onScroll();
-    return () => window.removeEventListener("scroll", onScroll);
+    if (page === "home") {
+      if (lastSection) {
+        requestAnimationFrame(() => {
+          document
+            .getElementById(lastSection)
+            ?.scrollIntoView({ behavior: "instant" });
+        });
+      } else {
+        window.scrollTo(0, 0);
+      }
+    } else {
+      window.scrollTo(0, 0);
+    }
   }, [page]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [page]);
 
-  const goHome = () => setPage("home");
+  const goHome = () => {
+    setLastSection(null);
+    setPage("home");
+  };
+
+  const goBack = () => {
+    setLastSection(page); // remembers "certifications", "stack", or "experience"
+    setPage("home");
+  };
 
   return (
     <div className="pb-[38px] md:pb-0">
@@ -100,7 +102,7 @@ export default function App() {
               <div className="p-8 text-inkMuted text-sm">Loading...</div>
             }
           >
-            <ExperienceFull onBack={goHome} />
+            <ExperienceFull onBack={goBack} />
           </Suspense>
         )}
         {page === "stack" && (
@@ -109,7 +111,7 @@ export default function App() {
               <div className="p-8 text-inkMuted text-sm">Loading...</div>
             }
           >
-            <StackFull onBack={goHome} />
+            <StackFull onBack={goBack} />
           </Suspense>
         )}
         {page === "certifications" && (
@@ -118,7 +120,7 @@ export default function App() {
               <div className="p-8 text-inkMuted text-sm">Loading...</div>
             }
           >
-            <CertificationsFull onBack={goHome} />
+            <CertificationsFull onBack={goBack} />
           </Suspense>
         )}
         {page === "home" && (
@@ -127,7 +129,7 @@ export default function App() {
             <Projects />
             <Experience onOpenFull={() => setPage("experience")} />
             <Stack onOpenFull={() => setPage("stack")} />
-            <Certifications onOpfenFull={() => setPage("certifications")} />
+            <Certifications onOpenFull={() => setPage("certifications")} />
             <GithubContribution />
           </>
         )}
