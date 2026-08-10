@@ -67,10 +67,6 @@ export default function App() {
   }, [page]);
 
   useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [page]);
-
-  useEffect(() => {
     if (page !== "home") return;
 
     const observer = new IntersectionObserver(
