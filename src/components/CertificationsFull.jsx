@@ -36,8 +36,8 @@ export default function CertificationsFull({ onBack }) {
           Certifications
         </h1>
         <p className="text-inkMuted text-base sm:text-lg max-w-[600px] mb-14">
-          Credentials across cloud, AI, data, and web development — each
-          verifiable at its source.
+          Credentials across cloud and web development — each verifiable at its
+          source.
         </p>
 
         <div className="space-y-14">

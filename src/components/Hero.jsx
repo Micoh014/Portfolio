@@ -88,8 +88,8 @@ export default function Hero() {
             animate="visible"
             className="mt-6 text-sm sm:text-lg md:text-base text-inkMuted"
           >
-            I am Full Stack &amp; Mobile App Developer. I create websites and
-            mobile apps that solves problems and provide useful solutions that
+            I am a Full Stack &amp; Mobile App Developer. I create websites and
+            mobile apps that solve problems and provide useful solutions that
             people can use in their daily lives.
           </motion.p>
 

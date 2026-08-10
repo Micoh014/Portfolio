@@ -24,9 +24,9 @@ export default function CommunityChat({ onClose }) {
       const { data } = await supabase
         .from("chat_messages")
         .select("*")
-        .order("created_at", { ascending: true })
+        .order("created_at", { ascending: false })
         .limit(200);
-      setMessages(data || []);
+      setMessages(data || []).reverse();
       setLoading(false);
 
       channel = supabase

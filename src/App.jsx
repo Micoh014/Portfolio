@@ -7,6 +7,8 @@ import Experience from "./components/Experience.jsx";
 import Stack from "./components/Stack.jsx";
 import Certifications from "./components/Certifications.jsx";
 import MobileNav from "./components/Mobile_nav.jsx";
+import Footer from "./components/Footer.jsx";
+import ScrollProgress from "./components/ScrollProgress.jsx";
 
 import { useState, useEffect, useRef } from "react";
 import { flushSync } from "react-dom";
@@ -68,6 +70,27 @@ export default function App() {
     window.scrollTo(0, 0);
   }, [page]);
 
+  useEffect(() => {
+    if (page !== "home") return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+        if (visible[0]) setActiveSection(visible[0].target.id);
+      },
+      { rootMargin: "-40% 0px -40% 0px", threshold: [0, 0.25, 0.5, 0.75, 1] },
+    );
+
+    SECTION_IDS.forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) observer.observe(el);
+    });
+
+    return () => observer.disconnect();
+  }, [page]);
+
   const goHome = () => {
     setLastSection(null);
     setPage("home");
@@ -79,7 +102,8 @@ export default function App() {
   };
 
   return (
-    <div className="pb-[38px] md:pb-0">
+    <div className="pb-[38px] xl:pb-0">
+      <ScrollProgress />
       <Sidebar
         onGoHome={goHome}
         activeSection={activeSection}
@@ -133,6 +157,7 @@ export default function App() {
             <GithubContribution />
           </>
         )}
+        <Footer />
       </main>
     </div>
   );
