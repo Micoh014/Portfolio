@@ -28,6 +28,8 @@ export const stackGroups = [
       "NativeWind",
       "Moti (Reanimated)",
       "React Navigation",
+      "Expo Router",
+      "TypeScript",
     ],
   },
   {
@@ -57,7 +59,14 @@ export const stackGroups = [
       "Accessibility (WCAG AA)",
       "Offline-First Architecture",
       "Local Data Persistence",
+      "Merged OCR to cover both Tesseract.js and ML Kit",
+      "Leaflet",
+      "React-leaflet",
     ],
+  },
+  {
+    title: "Testing",
+    items: ["Vitest", "Jest", "React Testing Library"],
   },
 ];
 
