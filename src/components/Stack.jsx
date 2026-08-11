@@ -12,15 +12,38 @@ export const stackGroups = [
       "Tailwind CSS",
       "Framer Motion",
       "Responsive Design",
+      "Shadcn/UI + Radix UI",
+      "React Router",
+      "Zustand",
+      "React Hook Form",
     ],
   },
   {
     title: "Mobile",
-    items: ["Flutter", "React Native", "Dart"],
+    items: [
+      "Flutter",
+      "React Native",
+      "Dart",
+      "Expo",
+      "NativeWind",
+      "Moti (Reanimated)",
+      "React Navigation",
+    ],
+  },
+  {
+    title: "Desktop",
+    items: ["Electron", "electron-builder"],
   },
   {
     title: "Backend & Database",
-    items: ["Node.js", "API Development", "Firebase", "Supabase (PostgreSQL)"],
+    items: [
+      "Node.js",
+      "API Development",
+      "Firebase",
+      "Supabase (PostgreSQL)",
+      "Express",
+      "SQLite",
+    ],
   },
   {
     title: "Tooling & Workflow",
@@ -28,7 +51,13 @@ export const stackGroups = [
   },
   {
     title: "Specialized",
-    items: ["OCR (Tesseract.js)", "PWA", "Accessibility (WCAG AA)"],
+    items: [
+      "OCR (Tesseract.js)",
+      "PWA",
+      "Accessibility (WCAG AA)",
+      "Offline-First Architecture",
+      "Local Data Persistence",
+    ],
   },
 ];
 
