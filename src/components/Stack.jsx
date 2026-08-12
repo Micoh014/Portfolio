@@ -1,4 +1,5 @@
 import Reveal from "./Reveal.jsx";
+import StackIcon from "./icons/StackIcon.jsx";
 
 export const stackGroups = [
   {
@@ -103,8 +104,9 @@ export default function Stack({ onOpenFull }) {
           {preview.map((item) => (
             <span
               key={item}
-              className="text-[14.5px] px-[15px] py-[9px] border border-ink/[0.11] rounded-[9px] text-ink bg-surface transition-all hover:border-accent hover:bg-accent/[0.09] hover:-translate-y-0.5"
+              className="flex items-center gap-2 text-[14.5px] px-[15px] py-[9px] border border-ink/[0.11] rounded-[9px] text-ink bg-surface transition-all hover:border-accent hover:bg-accent/[0.09] hover:-translate-y-0.5"
             >
+              <StackIcon label={item} className="w-4 h-4 shrink-0" />
               {item}
             </span>
           ))}

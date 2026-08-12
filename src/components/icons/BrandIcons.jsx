@@ -1,3 +1,8 @@
+// Hand-drawn brand icons kept for cases simple-icons doesn't cover
+// (Google/GSuite certs, VS Code — simple-icons omits VS Code for
+// trademark reasons) plus the generic initials fallback used by
+// StackIcon.jsx for anything unmatched.
+
 export function GoogleIcon({ className }) {
   return (
     <svg viewBox="0 0 48 48" className={className}>
@@ -18,5 +23,37 @@ export function GoogleIcon({ className }) {
         d="M43.6 20.5h-1.9V20.4H24v7.2h11.3c-.8 2.3-2.2 4.2-4.1 5.6l5.5 4.7C39.8 35.4 43.5 30.3 43.5 24c0-1.2-.1-2.4-.3-3.5z"
       />
     </svg>
+  );
+}
+
+export function VsCodeIcon({ className }) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} fill="#007ACC">
+      <path d="M17 1.5 8.5 9.2 3.3 5.4 1 6.6v10.8l2.3 1.2 5.2-3.8 8.5 7.7L23 20.2V3.8L17 1.5Zm0 4.3v12.4L10.8 12 17 5.8ZM3 8.6l2.7 3.4L3 15.4V8.6Z" />
+    </svg>
+  );
+}
+
+// Generic fallback for anything not covered above — a rounded glyph using
+// the item's initials so every pill still gets a consistent icon slot.
+export function GenericTechIcon({ label, className }) {
+  const initials = label
+    .replace(/\(.*?\)/g, "")
+    .trim()
+    .split(/[\s.]+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((w) => w[0])
+    .join("")
+    .toUpperCase();
+
+  return (
+    <span
+      className={`flex items-center justify-center font-mono font-semibold ${className}`}
+      style={{ fontSize: "0.55em" }}
+      aria-hidden="true"
+    >
+      {initials}
+    </span>
   );
 }

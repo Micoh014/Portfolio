@@ -1,23 +1,8 @@
 import Reveal from "./Reveal.jsx";
-
-const projects = [
-  {
-    title: "Pet Village",
-    subtitle: "Loyalty, Deals & Rewards App",
-    description:
-      "A native Android companion app for loyalty points, deals, and rewards — checkout hands off to the brand's existing WooCommerce store.",
-    icon: "/petvillage-icon.png",
-    tags: ["SOLO DEVELOPER", "MADE IN THE PHILIPPINES", "FLUTTER + FIREBASE"],
-  },
-  {
-    title: "School Supplies Inventory System",
-    subtitle: "Offline POS & Inventory Desktop App",
-    description:
-      "A point-of-sale and inventory management desktop app for a small school-supplies shop. Runs entirely offline on the owner's own computer — no cloud, no subscription, with FEFO batch/expiry tracking, purchase orders, credit (utang) tracking, and role-based staff access.",
-    icon: null,
-    tags: ["SOLO DEVELOPER", "MADE IN THE PHILIPPINES", "ELECTRON + REACT"],
-  },
-];
+import { projects } from "./projectsData.js";
+import { useLanguage } from "../lib/LanguageContext.jsx";
+import { translations } from "../lib/translations.js";
+import { FolderGit2, ArrowUpRight } from "lucide-react";
 
 function ProjectIcon({ project }) {
   if (project.icon) {
@@ -25,6 +10,7 @@ function ProjectIcon({ project }) {
       <img
         src={project.icon}
         alt={project.title}
+        loading="lazy"
         className="w-12 h-12 rounded-xl object-cover shrink-0"
       />
     );
@@ -32,28 +18,30 @@ function ProjectIcon({ project }) {
 
   return (
     <div className="w-12 h-12 rounded-xl bg-accent/[0.12] text-accent shrink-0 flex items-center justify-center">
-      <svg
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.8"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
-        <path d="M3 7.5 12 3l9 4.5-9 4.5-9-4.5Z" />
-        <path d="M3 7.5v9L12 21l9-4.5v-9" />
-        <path d="M12 12v9" />
-      </svg>
+      <FolderGit2 size={22} strokeWidth={1.8} />
     </div>
   );
 }
 
-function ProjectCard({ project, delay = 0 }) {
+function ProjectCard({ project, delay = 0, onOpen }) {
+  const { lang } = useLanguage();
+  const description =
+    translations.projectDescriptions[project.id]?.[lang] ?? project.description;
+
   return (
     <Reveal delay={delay} className="w-full">
-      <div className="relative z-10 w-full h-full bg-surface border border-ink/[0.11] rounded-2xl p-6 shadow-[0_20px_50px_-15px_rgba(0,0,0,0.25)] flex flex-col">
+      <div
+        role="button"
+        tabIndex={0}
+        onClick={() => onOpen(project.id)}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            onOpen(project.id);
+          }
+        }}
+        className="relative z-10 w-full h-full bg-surface border border-ink/[0.11] rounded-2xl p-6 shadow-[0_20px_50px_-15px_rgba(0,0,0,0.25)] flex flex-col cursor-pointer transition-colors hover:border-accent/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+      >
         <div className="flex flex-wrap gap-2 mb-5">
           {project.tags.map((tag) => (
             <span
@@ -77,13 +65,43 @@ function ProjectCard({ project, delay = 0 }) {
           </div>
         </div>
 
-        <p className="text-sm text-inkMuted">{project.description}</p>
+        <p className="text-sm text-inkMuted">{description}</p>
+
+        {project.metrics && project.metrics.length > 0 && (
+          <div className="flex flex-wrap gap-2 mt-4">
+            {project.metrics.map((m) => (
+              <span
+                key={m.label}
+                className="font-mono text-[10.5px] text-accent bg-accent/[0.08] border border-accent/[0.18] rounded-full px-3 py-1"
+              >
+                {m.value} {m.label}
+              </span>
+            ))}
+          </div>
+        )}
+
+        <div className="flex items-center justify-between mt-5 pt-5 border-t border-ink/[0.07]">
+          <span className="font-mono text-[11px] text-inkDim uppercase tracking-wide">
+            View case study →
+          </span>
+          {project.liveUrl && (
+            <a
+              href={project.liveUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={(e) => e.stopPropagation()}
+              className="flex items-center gap-1 font-mono text-[11px] text-accent hover:underline uppercase tracking-wide"
+            >
+              Live <ArrowUpRight size={12} strokeWidth={2.2} />
+            </a>
+          )}
+        </div>
       </div>
     </Reveal>
   );
 }
 
-export default function Projects() {
+export default function Projects({ onOpenProject }) {
   return (
     <section
       id="projects"
@@ -101,16 +119,17 @@ export default function Projects() {
             rel="noopener noreferrer"
             className="font-mono text-[12px] tracking-wide text-inkDim hover:text-accent uppercase transition-colors"
           >
-            All projects →
+            GitHub →
           </a>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
           {projects.map((project, i) => (
             <ProjectCard
-              key={project.title}
+              key={project.id}
               project={project}
               delay={i * 0.1}
+              onOpen={onOpenProject}
             />
           ))}
         </div>

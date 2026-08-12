@@ -23,7 +23,7 @@ export default function GithubContribution() {
         <Reveal>
           <div className="border border-ink/[0.11] rounded-2xl p-6 sm:p-8 bg-surface overflow-x-auto">
             <img
-              src="https://ghchart.rshah.org/6C4CFF/Micoh014"
+              src="https://ghchart.rshah.org/C1571F/Micoh014"
               alt="Micoh014's GitHub contribution chart"
               className="w-full min-w-[600px]"
             />
