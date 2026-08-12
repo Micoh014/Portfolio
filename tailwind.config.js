@@ -11,8 +11,8 @@ export default {
         ink: "rgb(var(--ink) / <alpha-value>)",
         inkMuted: "rgb(var(--ink-muted) / <alpha-value>)",
         inkDim: "rgb(var(--ink-dim) / <alpha-value>)",
-        accent: "#6C4CFF",
-        accent2: "#14A876",
+        accent: "#C1571F",
+        accent2: "#1F6F5C",
       },
       fontFamily: {
         display: ['"Space Grotesk"', "sans-serif"],

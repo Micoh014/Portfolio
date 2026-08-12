@@ -1,14 +1,20 @@
 import { useState } from "react";
-import CommunityChat from "./CommunityChat.jsx";
+import StatusBadge from "./StatusBadge.jsx";
+import ThemeToggle from "./ThemeToggle.jsx";
+import { useLanguage } from "../lib/LanguageContext.jsx";
+import { Menu, X, Download, MessageCircle } from "lucide-react";
 
 export default function MobileNav({
   onGoHome,
   activeSection,
   dark,
   onThemeChange,
+  onOpenUses,
+  onOpenBlog,
+  onOpenContact,
 }) {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [chatOpen, setChatOpen] = useState(false);
+  const { lang, toggleLang } = useLanguage();
 
   const sections = [
     { id: "projects", label: "Projects", href: "#projects" },
@@ -33,18 +39,7 @@ export default function MobileNav({
         onClick={() => setMenuOpen(true)}
         className="md:hidden fixed top-6 right-6 z-40 p-2 text-ink hover:text-accent transition-colors"
       >
-        <svg
-          width="20"
-          height="20"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-        >
-          <line x1="3" y1="6" x2="21" y2="6" />
-          <line x1="3" y1="12" x2="21" y2="12" />
-          <line x1="3" y1="18" x2="21" y2="18" />
-        </svg>
+        <Menu size={20} strokeWidth={2} />
       </button>
 
       {/* Menu overlay */}
@@ -54,7 +49,7 @@ export default function MobileNav({
           onClick={() => setMenuOpen(false)}
         >
           <div
-            className="flex flex-col h-screen p-6 space-y-6"
+            className="flex flex-col h-screen p-6 space-y-6 overflow-y-auto"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Close button */}
@@ -62,28 +57,21 @@ export default function MobileNav({
               <h2 className="font-mono text-sm font-bold text-ink">Menu</h2>
               <button
                 onClick={() => setMenuOpen(false)}
+                aria-label="Close menu"
                 className="p-2 text-ink hover:text-accent transition-colors"
               >
-                <svg
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                >
-                  <line x1="18" y1="6" x2="6" y2="18" />
-                  <line x1="6" y1="6" x2="18" y2="18" />
-                </svg>
+                <X size={20} strokeWidth={2} />
               </button>
             </div>
 
             {/* Logo/Name */}
             <button onClick={onGoHome} className="text-left -mx-2">
               <h1 className="font-mono text-sm font-bold text-ink hover:text-accent transition-colors">
-                Micoh Ojenar
+                Micoh Angelo Ojenar
               </h1>
             </button>
+
+            <StatusBadge />
 
             {/* Download CV */}
             <a
@@ -92,16 +80,7 @@ export default function MobileNav({
               onClick={() => setMenuOpen(false)}
               className="flex items-center gap-2 text-xs font-mono px-3 py-2 rounded-lg border border-ink/[0.11] text-ink hover:border-accent hover:text-accent transition-colors w-fit"
             >
-              <svg
-                width="12"
-                height="12"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-              >
-                <path d="M12 3v12m0 0l-4-4m4 4l4-4M4 21h16" />
-              </svg>
+              <Download size={12} strokeWidth={2} />
               Download CV
             </a>
 
@@ -117,83 +96,60 @@ export default function MobileNav({
                   {s.label}
                 </a>
               ))}
+              <button
+                onClick={() => {
+                  setMenuOpen(false);
+                  onOpenBlog();
+                }}
+                className="block w-full text-left px-0 py-2 rounded text-sm text-inkMuted hover:text-ink hover:bg-ink/[0.04]"
+              >
+                Write-ups
+              </button>
+              <button
+                onClick={() => {
+                  setMenuOpen(false);
+                  onOpenUses();
+                }}
+                className="block w-full text-left px-0 py-2 rounded text-sm text-inkMuted hover:text-ink hover:bg-ink/[0.04]"
+              >
+                Uses
+              </button>
             </nav>
-
-            {/* Chat */}
-            <button
-              onClick={() => {
-                setChatOpen(true);
-                setMenuOpen(false);
-              }}
-              className="flex items-center gap-2 text-xs text-inkMuted hover:text-ink py-2"
-            >
-              <span>💬</span>
-              <span>community chat</span>
-            </button>
 
             {/* Divider */}
             <div className="border-t border-ink/[0.07]" />
 
-            {/* Dark mode */}
-            <div className="flex items-center gap-2">
+            {/* Theme + language */}
+            <div className="flex items-center justify-between">
+              <ThemeToggle dark={dark} onThemeChange={onThemeChange} />
               <button
-                onClick={(e) => onThemeChange(false, e)}
-                className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors ${
-                  !dark
-                    ? "bg-ink text-bg"
-                    : "border border-ink/[0.15] text-inkDim hover:border-ink/[0.3]"
-                }`}
+                onClick={toggleLang}
+                aria-label="Switch language"
+                className="font-mono text-[11px] text-inkDim hover:text-accent border border-ink/[0.11] rounded-full px-2.5 py-1"
               >
-                <svg
-                  width="13"
-                  height="13"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                >
-                  <circle cx="12" cy="12" r="4" />
-                  <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
-                </svg>
-              </button>
-              <button
-                onClick={(e) => onThemeChange(true, e)}
-                className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors ${
-                  dark
-                    ? "bg-ink text-bg"
-                    : "border border-ink/[0.15] text-inkDim hover:border-ink/[0.3]"
-                }`}
-              >
-                <svg
-                  width="13"
-                  height="13"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                >
-                  <path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79Z" />
-                </svg>
+                {lang === "en" ? "EN" : "FIL"}
               </button>
             </div>
 
-            {/* Email */}
+            {/* Contact */}
             <div className="pt-2">
               <p className="text-xs text-inkMuted leading-relaxed mb-2">
                 For work, collabs & everything else:
               </p>
-              <a
-                href="mailto:micohangelo14@gmail.com"
-                onClick={() => setMenuOpen(false)}
-                className="flex items-center gap-2 text-xs text-ink hover:text-accent"
+              <button
+                onClick={() => {
+                  setMenuOpen(false);
+                  onOpenContact();
+                }}
+                className="flex items-center gap-2 text-xs text-ink hover:text-accent font-mono"
               >
-                <span className="font-mono">micohangelo14@gmail.com</span>
-              </a>
+                <MessageCircle size={13} strokeWidth={2} />
+                message me →
+              </button>
             </div>
           </div>
         </div>
       )}
-
-      {/* Chat modal */}
-      {chatOpen && <CommunityChat onClose={() => setChatOpen(false)} />}
     </>
   );
 }
